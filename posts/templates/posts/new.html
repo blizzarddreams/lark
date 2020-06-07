@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<form method="POST" action="/posts/new/" class="new-post">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.title.errors }}
+    <label for="title">Title</label>
+    <input class="form-control" id="title" name="title" />
+  </div>
+  {{ form.data.errors }}
+
+  <div id="toolbar"></div>
+  <div id="editor"></div>
+  <button type="submit" class="btn btn-primary btn-main">Submit</button>
+</form>
+{% endblock %}

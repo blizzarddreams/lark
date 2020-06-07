@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "jsx": "react"
+  },
+  "include": [
+    "./resources/*.ts",
+    "./resources/*.tsx",
+    "./resources/**/*.ts",
+    "./resources/**/*.tsx"
+  ],
+  "exclude": ["node_modules"]
+}

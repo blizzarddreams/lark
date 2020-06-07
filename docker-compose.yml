@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:11.8
+    networks:
+      - web
+    environment:
+      POSTGRES_USERNAME: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    #command: python3.8 manage.py runserver
+    networks:
+      - web
+    #command: "node build/main"
+    environment:
+      DB_HOST: ${DOCKER_DB}
+      SECRET_KEY: ${SECRET_KEY}
+networks:
+  web:

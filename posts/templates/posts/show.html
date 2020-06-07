@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %} {% load custom_filters %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-1">
+      <div class="position-fixed">
+        {% if favorited %}
+        <i class="fas fa-heart favorite-message" data-id="{{post.id}}"></i>
+        {% else %}
+        <i class="far fa-heart favorite-message" data-id="{{post.id}}"></i>
+        {% endif %}
+        <p class="favorite-count">{{ post.favorite_set.all|length}}</p>
+      </div>
+    </div>
+    <div class="col-9">
+      <h1>{{post.title}}</h1>
+      <h4>
+        By
+        <img
+          src="{{post.profile.user.email|gravatar}}"
+          class="avatar avatar-small"
+        />{{post.profile.user.username}}
+      </h4>
+      <article>
+        {{post.data|safe}}
+      </article>
+      <form method="POST" action="/comments/new/">
+        {% csrf_token %}
+        <input type="hidden" name="post" value="{{post.id}}" />
+        <div class="form-group">
+          <label for="comment">Comment</label>
+          <textarea
+            class="form-control w-100"
+            id="comment"
+            name="data"
+            rows="4"
+          ></textarea>
+          <button type="submit" class="btn btn-primary btn-main">Submit</button>
+        </div>
+      </form>
+      {% for comment in post.comment_set.all %}
+      <div class="comment">
+        {{comment.data}}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

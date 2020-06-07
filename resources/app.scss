@@ -1,0 +1,102 @@
+html {
+  height: 100%;
+}
+body {
+  font-family: "Roboto", sans-serif;
+  height: 100%;
+  margin: 0;
+}
+.app {
+  height: 100%;
+}
+
+.quill {
+  height: 80%;
+  width: 80%;
+  border: 1px solid #08153438;
+}
+.ql-editor {
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+}
+
+::selection,
+::-moz-selection {
+  background: #1b9aaa; //#76bef2 !important;
+}
+
+/*@mixin button($backgroundColor, $textColor, $hoverTextColor) {
+  border: none;
+  color: $textColor;
+  text-decoration: none;
+  background-color: $backgroundColor;
+
+  &:hover {
+    background-color: darken($backgroundColor, 0.1);
+  }
+  &:active {
+    background-color: darken($backgroundColor, 0.2) !important;
+    color: $hoverTextColor;
+  }
+}
+.navbar {
+  background-color: #1b9aaa;
+}
+.nav-item {
+  color: #eee;
+}
+.nav-item-link {
+  text-decoration: none !important;
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+}
+.container {
+  padding: 1rem;
+}
+.register-form,
+.login-form {
+  width: 100%;
+}
+.form-control {
+  width: 40%;
+}
+.btn-main {
+  @include button(#449dd1, #222, #eee);
+}
+.link-to-post {
+  text-decoration: none;
+  color: #17c684;
+  &:hover {
+    text-decoration: dashed;
+    color: scale-color(#17c684, $lightness: -10%);
+    text-decoration-color: #17c684;
+  }
+}
+.post-box {
+  line-height: 0.001rem;
+}
+.avatar {
+  border-radius: 50%;
+}
+.username-small {
+  font-size: 0.8rem;
+  color: #444f55;
+}
+.avatar-extra-small {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+.avatar-small {
+  height: 2rem;
+  width: 2rem;
+}
+.avatar-medium {
+  height: 4rem;
+  width: 4rem;
+}
+.favorite-message {
+  color: #f05365;
+}
+*/
