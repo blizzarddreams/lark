@@ -16,4 +16,6 @@ RUN pip install -r requirements.txt
 
 RUN npm run build
 
+RUN npm run webpack
+
 CMD gunicorn lark.wsgi
