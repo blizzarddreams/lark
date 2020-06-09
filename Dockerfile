@@ -16,4 +16,4 @@ RUN pip install -r requirements.txt
 
 RUN npm run build
 
-CMD python manage.py runserver
+CMD gunicorn lark.wsgi

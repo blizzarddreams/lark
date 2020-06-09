@@ -12,6 +12,7 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 flake8 = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
