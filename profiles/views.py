@@ -16,7 +16,8 @@ from .serializers import ProfileSerializer
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @authentication_classes([JWTAuthentication])
-def get_profile(request):
+def get_dashboard(request):
+    print(request.user.id)
     profile = Profile.objects.get(user__pk=request.user.id)
     serializer = ProfileSerializer(profile)
     response = {'success': True, 'data': serializer.data}
@@ -38,7 +39,7 @@ def register_user(request):
         user = RegisterForm(request.data)
         if user.is_valid():
             user.save()
-            username = user.cleaned_data.get('username')[0]
+            username = user.cleaned_data['username']
             user_ = User.objects.filter(username__iexact=username)[0]
             profile = Profile()
             profile.user = user_

@@ -69,7 +69,7 @@ class PostSerializer(serializers.ModelSerializer):
             'id',
             'subtitle',
             'favorite_count',
-            'title_slug'
+            # 'title_slug'
         ]
 
     def get_favorite_count(self, obj):

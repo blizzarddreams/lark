@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 // import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) => ({
   button: {
@@ -50,6 +51,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const Register = (): JSX.Element => {
+  const history = useHistory();
   const [credentials, setCredentials] = useState({
     username: "",
     password1: "",
@@ -74,7 +76,7 @@ const Register = (): JSX.Element => {
       password2: credentials.password2,
       email: credentials.email,
     });
-    fetch("/profiles/register/", {
+    fetch("/register/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +87,7 @@ const Register = (): JSX.Element => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          // todo
+          history.push("/dashboard");
         } else {
           setErrors(data.errors);
         }

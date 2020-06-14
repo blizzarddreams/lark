@@ -9,6 +9,7 @@ import {
   Box,
 } from "@material-ui/core";
 import Cookies from "js-cookie";
+import { useHistory } from "react-router-dom";
 //import "react-quill/dist/quill.snow.css";
 
 interface Post {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 const NewPost = (): JSX.Element => {
+  const history = useHistory();
   const classes = useStyles();
   const [data, setData] = useState("");
   const [title, setTitle] = useState("");
@@ -62,8 +64,6 @@ const NewPost = (): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    //console.log(csrf);
-    console.log(token);
     fetch("/posts/new/", {
       method: "POST",
       body: JSON.stringify({
@@ -79,7 +79,9 @@ const NewPost = (): JSX.Element => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.success) {
+          return history.push("/dashboard");
+        } // todo: show errors
       });
   };
 
