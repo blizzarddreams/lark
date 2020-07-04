@@ -10,7 +10,7 @@ from bookmarks.models import Bookmark
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'id']
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['user']
+        fields = ['user', 'id']
 
 
 class CommentSerializer(serializers.ModelSerializer):

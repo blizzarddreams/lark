@@ -29,5 +29,6 @@ urlpatterns = [
     path('favorites/', include('favorites.urls')),
     path('comments/', include('comments.urls')),
     path('posts/', include('posts.urls')),
+    path('follows/', include('follows.urls')),
     re_path('', TemplateView.as_view(template_name='home.html'), name='base'),
 ]

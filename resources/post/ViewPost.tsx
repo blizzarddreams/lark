@@ -35,9 +35,11 @@ import { Helmet } from "react-helmet";
 interface User {
   username: string;
   email: string;
+  id: number;
 }
 interface Profile {
   user: User;
+  id: number;
 }
 
 interface Favorite {
@@ -191,9 +193,11 @@ const ViewPost = (): JSX.Element => {
     favorite_count: 0,
     profile: {
       user: {
+        id: 0,
         username: "",
         email: "",
       },
+      id: 0,
     },
   });
   const [comment, setComment] = useState<string>("");
@@ -437,6 +441,22 @@ const ViewPost = (): JSX.Element => {
       });
   };
 
+  const handleFollow = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    fetch("/follows/follow-user/", {
+      method: "POST",
+      body: JSON.stringify({ id: post.profile.user.id }),
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrf,
+        Authorization: token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <>
       <ViewFavorites
@@ -547,6 +567,11 @@ const ViewPost = (): JSX.Element => {
                           </Box>
                         </>
                       ) : null}
+                    </Box>
+                    <Box>
+                      <Button variant="contained" onClick={handleFollow}>
+                        Follow User
+                      </Button>
                     </Box>
                   </Box>
                 </Box>

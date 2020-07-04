@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 interface User {
   username: string;
   email: string;
+  id: number;
 }
 
 interface Comment {
@@ -16,6 +17,7 @@ interface Comment {
 
 interface Profile {
   user: User;
+  id: number;
 }
 interface Post {
   id: number;

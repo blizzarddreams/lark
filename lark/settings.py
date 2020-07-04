@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'favorites.apps.FavoritesConfig',
     'bookmarks.apps.BookmarksConfig',
+    'follows.apps.FollowsConfig',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
