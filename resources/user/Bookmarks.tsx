@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 const Bookmarks = (): JSX.Element => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>();
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const classes = useStyles();
 
   useEffect(() => {

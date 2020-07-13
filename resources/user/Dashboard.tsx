@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Dashbord = (): JSX.Element => {
   const darkMode = useContext(DarkModeContext);
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile>(null!);
   const csrf = Cookies.get("csrftoken")!;
   const token = `Bearer ${Cookies.get("token")}`;
   const classes = useStyles({ darkMode });

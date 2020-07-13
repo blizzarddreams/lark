@@ -47,3 +47,6 @@ def register_user(request):
             return Response({'success': True})
         else:
             return Response({'success': False, 'errors': user.errors})
+
+
+

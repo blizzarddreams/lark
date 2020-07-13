@@ -59,7 +59,7 @@ const Search = (): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
   const [search, setSearch] = useState("");
-  const [posts, setPosts] = useState<Post[]>();
+  const [posts, setPosts] = useState<Post[]>([]);
   const [searchParams, setSearchParams] = useState(
     new URLSearchParams(document.location.search.substring(1)).get("qs"),
   );

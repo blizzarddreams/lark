@@ -43,3 +43,24 @@ def follow_user(request):
 
     return Response(response)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([JWTAuthentication])
+def is_following_user(request, id_):
+    auth = get_profile_object(request.user.id)
+    profile = get_profile_object(id_)
+
+    response = {'success': True}
+
+    try:
+        Follow.objects.get(follower=auth, following=profile)
+        response['following'] = True
+    except Follow.DoesNotExist:
+        response['following'] = False
+
+    return Response(response)
+
+
+
+
+

@@ -182,49 +182,31 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ViewPost = (): JSX.Element => {
   const { username, titleSlug } = useParams();
   const [isOwner, setIsOwner] = useState<boolean>(false);
-  const [post, setPost] = useState<Post>({
-    id: 0,
-    title: "",
-    subtitle: "",
-    data: "",
-    created_at: "",
-    comments: [],
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    favorite_count: 0,
-    profile: {
-      user: {
-        id: 0,
-        username: "",
-        email: "",
-      },
-      id: 0,
-    },
-  });
+  const [post, setPost] = useState<Post>(null!);
   const [comment, setComment] = useState<string>("");
-  const [errors, setErrors] = useState<Errors>({
-    data: [],
-  });
+  const [following, setFollowing] = useState(false);
+  const [errors, setErrors] = useState<Errors>({ data: [] });
   const [favorites, setFavorites] = useState<Favorites>({
     post: 0,
     comments: [],
-  });
-  const [postDeleteDialog, setPostDeleteDialog] = useState<Dialog>({
-    id: 0,
-    open: false,
-  });
-  const [commentDeleteDialog, setCommentDeleteDialog] = useState<Dialog>({
-    id: 0,
-    open: false,
-  });
-  const [favoriteDialog, setFavoriteDialog] = useState<FavoriteDialog>({
-    open: false,
-    users: [],
   });
   const [bookmarks, setBookmarks] = useState<Bookmarks>({
     post: 0,
     comments: [],
   });
 
+  const [postDeleteDialog, setPostDeleteDialog] = useState<Dialog>({
+    open: false,
+    id: 0,
+  });
+  const [commentDeleteDialog, setCommentDeleteDialog] = useState<Dialog>({
+    open: false,
+    id: 0,
+  });
+  const [favoriteDialog, setFavoriteDialog] = useState<FavoriteDialog>({
+    open: false,
+    users: [],
+  });
   const csrf = Cookies.get("csrftoken")!;
   const token = `Bearer ${Cookies.get("token")}`;
   const classes = useStyles();
@@ -320,6 +302,18 @@ const ViewPost = (): JSX.Element => {
           // todo: condense
           setBookmarksAndFavorites(data.favorites, "favorites");
           setBookmarksAndFavorites(data.bookmarks, "bookmarks");
+
+          if (Cookies.get("email") && !data.is_owner) {
+            fetch(`/follows/following/${data.data.profile.user.id}/`, {
+              headers: {
+                Authorization: token,
+              },
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                setFollowing(data.following);
+              });
+          }
         }
       });
   }, [username, titleSlug, token]);
@@ -434,7 +428,6 @@ const ViewPost = (): JSX.Element => {
         if (data.success) {
           setPost({ ...post, comments: [data.data, ...post.comments] });
           setComment("");
-          setErrors({ data: [] });
         } else {
           setErrors(data.errors);
         }
@@ -453,7 +446,9 @@ const ViewPost = (): JSX.Element => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.success) {
+          setFollowing(data.following);
+        }
       });
   };
 
@@ -569,9 +564,14 @@ const ViewPost = (): JSX.Element => {
                       ) : null}
                     </Box>
                     <Box>
-                      <Button variant="contained" onClick={handleFollow}>
-                        Follow User
-                      </Button>
+                      {!isOwner ? (
+                        <Button
+                          variant={following ? "contained" : "outlined"}
+                          onClick={handleFollow}
+                        >
+                          {following ? "Following" : "Follow"}
+                        </Button>
+                      ) : null}
                     </Box>
                   </Box>
                 </Box>

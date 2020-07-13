@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const ViewUser = (): JSX.Element => {
   const darkMode = useContext(DarkModeContext);
   const { username } = useParams();
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile>(null!);
   const classes = useStyles({ darkMode });
 
   useEffect(() => {

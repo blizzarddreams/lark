@@ -12,7 +12,8 @@ import Cookies from "js-cookie";
 import { useParams, useHistory } from "react-router-dom";
 
 interface Post {
-  data: string;
+  //data: string;
+  subtitle: string;
   title: string;
 }
 
@@ -49,10 +50,7 @@ const EditPost = (): JSX.Element => {
   const { username, titleSlug } = useParams();
   const classes = useStyles();
   const [data, setData] = useState("");
-  const [post, setPost] = useState({
-    title: "",
-    subtitle: "",
-  });
+  const [post, setPost] = useState<Post>(null!);
 
   const csrf = Cookies.get("csrftoken")!;
   const token = `Bearer ${Cookies.get("token")}`;
@@ -76,7 +74,7 @@ const EditPost = (): JSX.Element => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setPost({ title: data.post.title, subtitle: data.post.subtitle });
+          setPost({ ...data.post });
           setData(data.post.data);
         }
       });
