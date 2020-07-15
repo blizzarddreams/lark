@@ -25,10 +25,12 @@ interface Post {
   title_slug: string;
   data: string;
   created_at: string;
+  profile: Pick<Profile, "user">;
 }
 interface Profile {
   user: User;
   posts: Post[];
+  follower_posts: Post[];
 }
 
 interface StyleProps {
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   displayBox: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    //justifyContent: "center",
     flexDirection: "column",
   },
 }));
@@ -127,6 +129,45 @@ const Dashbord = (): JSX.Element => {
                     display="flex"
                     flexDirection="row"
                     className={classes.subtitle}
+                  >
+                    <Moment timestamp={post.created_at} /> |
+                    <ReadingTime data={post.data} />
+                  </Box>
+                </Box>
+              ))}
+            </Grid>
+            <Grid item xs={6} className={classes.displayBox}>
+              <Typography variant="h5">
+                Latest Posts From Users You're Following
+              </Typography>
+              {profile.follower_posts.map((post) => (
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  className={classes.post}
+                  key={post.id}
+                >
+                  <Typography
+                    key={post.id}
+                    variant="h6"
+                    className={classes.link}
+                    component={Link}
+                    to={`/${post.profile.user.username}/${post.title_slug}/`}
+                  >
+                    <Truncate data={post.title} at={40} />
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    {post.subtitle}
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    By {post.profile.user.username}
+                  </Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    className={classes.subtitle}
+                    alignItems="center"
                   >
                     <Moment timestamp={post.created_at} /> |
                     <ReadingTime data={post.data} />
