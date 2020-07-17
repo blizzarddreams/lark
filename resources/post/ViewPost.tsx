@@ -608,31 +608,33 @@ const ViewPost = (): JSX.Element => {
                   <Typography variant="h4" id="commentRef">
                     Comments
                   </Typography>
-                  <form
-                    onSubmit={handleNewCommentSubmit}
-                    className={classes.form}
-                  >
-                    <TextField
-                      label="Comment"
-                      variant="outlined"
-                      onChange={handleCommentChange}
-                      value={comment}
-                      multiline
-                      fullWidth
-                      error={errors.data.length > 0}
-                      helperText={errors.data.join("\n")}
-                      rows="4"
-                      className={classes.input}
-                    />
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      fullWidth
-                      className={classes.button}
+                  {Cookies.get("email") && (
+                    <form
+                      onSubmit={handleNewCommentSubmit}
+                      className={classes.form}
                     >
-                      Submit
-                    </Button>
-                  </form>
+                      <TextField
+                        label="Comment"
+                        variant="outlined"
+                        onChange={handleCommentChange}
+                        value={comment}
+                        multiline
+                        fullWidth
+                        error={errors.data.length > 0}
+                        helperText={errors.data.join("\n")}
+                        rows="4"
+                        className={classes.input}
+                      />
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                        className={classes.button}
+                      >
+                        Submit
+                      </Button>
+                    </form>
+                  )}
                   {post.comments.map((comment) => (
                     <Card key={comment.id} className={classes.comment}>
                       <CardContent>

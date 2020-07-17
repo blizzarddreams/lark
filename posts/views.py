@@ -10,7 +10,7 @@ from rest_framework.decorators import (
     authentication_classes
 )
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 # from rest_framework.authentication import
 from .serializers import PostSerializer, FavoriteSerializer, BookmarkSerializer
@@ -60,8 +60,8 @@ def edit_post(request, username, title_slug):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@authentication_classes([JWTAuthentication])
+@permission_classes([])
+@authentication_classes([])
 def get_post(request, username, title_slug):
     post = get_object(username, title_slug)
     serializer = PostSerializer(post)
