@@ -47,13 +47,13 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
 class ProfileSerializer(serializers.HyperlinkedModelSerializer):
     user = UserSerializer(read_only=True)
     posts = serializers.SerializerMethodField()
-    follower_posts = serializers.SerializerMethodField()
+    following_posts = serializers.SerializerMethodField()
     # posts = PostSerializer(read_only=True)
     # comments = CommentSerializer(read_only=True)
 
-    def get_follower_posts(self, obj):
-        followers_ = Follow.objects.filter(following__user__pk=obj.user.id)
-        profile_ids = [x.follower.id for x in followers_]
+    def get_following_posts(self, obj):
+        following_ = Follow.objects.filter(follower__user__pk=obj.user.id)
+        profile_ids = [x.following.id for x in following_]
         posts = Post.objects.filter(profile__pk__in=profile_ids).order_by('created_at').all()
         return PostSerializer(posts, many=True).data
 
@@ -63,5 +63,5 @@ class ProfileSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['user', 'id', 'posts', 'follower_posts']
+        fields = ['user', 'id', 'posts', 'following_posts']
         # , 'comments']

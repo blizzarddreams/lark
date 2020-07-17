@@ -30,7 +30,7 @@ interface Post {
 interface Profile {
   user: User;
   posts: Post[];
-  follower_posts: Post[];
+  following_posts: Post[];
 }
 
 interface StyleProps {
@@ -140,7 +140,7 @@ const Dashbord = (): JSX.Element => {
               <Typography variant="h5">
                 Latest Posts From Users You're Following
               </Typography>
-              {profile.follower_posts.map((post) => (
+              {profile.following_posts.map((post: Post) => (
                 <Box
                   display="flex"
                   flexDirection="column"
