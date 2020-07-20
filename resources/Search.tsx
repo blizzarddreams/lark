@@ -1,6 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { makeStyles, fade, Box, TextField } from "@material-ui/core";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
+import {
+  makeStyles,
+  fade,
+  Box,
+  TextField,
+  Typography,
+  Theme,
+  darken,
+} from "@material-ui/core";
+import Truncate from "./util/Truncate";
+import Moment from "./util/Moment";
+import ReadingTime from "./util/ReadingTime";
+import DarkModeContext from "./DarkMode";
 
 interface User {
   username: string;
@@ -26,6 +38,7 @@ interface Post {
   created_at: string;
   profile: Profile;
   favorite_count: number;
+  title_slug: string;
 }
 
 interface User {
@@ -33,7 +46,29 @@ interface User {
   username: string;
 }
 
-const useStyles = makeStyles(() => ({
+interface StyleProps {
+  darkMode: boolean;
+}
+
+const useStyles = makeStyles((theme: Theme) => ({
+  subtitle: (props: StyleProps) => ({
+    color: props.darkMode ? "#e0dfe7ed" : "#050427bf",
+  }),
+  post: {
+    padding: theme.spacing(1),
+    borderColor: "#050427bf",
+    //width: "100%",
+    border: "none",
+    borderTop: "1px",
+  },
+  link: (props: StyleProps) => ({
+    color: props.darkMode ? "#DCE2EC" : "#0C1B33",
+    textDecoration: "none",
+    "&:hover": {
+      color: darken(props.darkMode ? "#DCE2EC" : "#0C1B33", 0.1),
+      textDeocrationColor: props.darkMode ? "#DCE2EC" : "#0C1B33",
+    },
+  }),
   input: {
     color: "#222",
     borderColor: "#222 !important",
@@ -56,7 +91,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 const Search = (): JSX.Element => {
-  const classes = useStyles();
+  const darkMode = useContext(DarkModeContext);
+  const classes = useStyles({ darkMode });
   const history = useHistory();
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState<Post[]>([]);
@@ -89,25 +125,67 @@ const Search = (): JSX.Element => {
     getPosts();
   };
   return (
-    <Box display="flex" flexDirection="row" justifyContent="center">
-      <form onSubmit={handleSearch}>
-        <TextField
-          name="qs"
-          id="outlined-basic"
-          label="Search"
-          fullWidth
-          value={search}
-          onChange={handleSearchValue}
-          variant="outlined"
-          classes={{
-            root: classes.input,
-          }}
-        />
-      </form>
-      {posts?.map((post) => (
-        <p key={post.id}>{post.title}</p>
-      ))}
-    </Box>
+    <>
+      {posts && (
+        <Box display="flex" flexDirection="column" justifyContent="center">
+          <form onSubmit={handleSearch}>
+            <TextField
+              name="qs"
+              id="outlined-basic"
+              label="Search"
+              fullWidth
+              value={search}
+              onChange={handleSearchValue}
+              variant="outlined"
+              classes={{
+                root: classes.input,
+              }}
+            />
+          </form>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+          >
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <Box className={classes.post} key={post.id}>
+                  <Typography
+                    key={post.id}
+                    variant="h6"
+                    className={classes.link}
+                    component={Link}
+                    to={`/${post.profile.user.username}/${post.title_slug}/`}
+                  >
+                    <Truncate data={post.title} at={40} />
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    {post.subtitle}
+                  </Typography>
+                  <Typography className={classes.subtitle}>
+                    By {post.profile.user.username}
+                  </Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    className={classes.subtitle}
+                    alignItems="center"
+                  >
+                    <Moment timestamp={post.created_at} /> |
+                    <ReadingTime data={post.data} />
+                  </Box>
+                </Box>
+              ))
+            ) : (
+              <Typography>
+                No posts found with the query {`"${searchParams}"`}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };
 
