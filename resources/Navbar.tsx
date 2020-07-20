@@ -14,6 +14,7 @@ import {
   faFeatherAlt,
   faSignOutAlt,
   faSignInAlt,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -150,6 +151,11 @@ const Navbar = (): JSX.Element => {
               <Link to="/login">
                 <IconButton className={classes.icon}>
                   <FontAwesomeIcon icon={faSignInAlt} />
+                </IconButton>
+              </Link>
+              <Link to="/register">
+                <IconButton className={classes.icon}>
+                  <FontAwesomeIcon icon={faUserPlus} />
                 </IconButton>
               </Link>
             </>
